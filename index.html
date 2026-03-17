@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학생부종합전형 퀴즈 | 에듀케레 바른교육연구소</title>
+<meta property="og:title" content="학종 완벽 이해 퀴즈 | 에듀케레 바른교육연구소">
+<meta property="og:description" content="학생부종합전형, 제대로 알고 계신가요? 10문제로 확인해보세요.">
+<meta property="og:image" content="https://educereedu.com/og-image.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b35;
+    --navy-mid: #162848;
+    --navy-light: #1e3560;
+    --gold: #c8a96e;
+    --gold-light: #e0c98a;
+    --gold-pale: #f5ecd8;
+    --white: #ffffff;
+    --off-white: #f8f6f2;
+    --text-dark: #1a1a2e;
+    --text-mid: #4a4a6a;
+    --correct: #2d7a4f;
+    --correct-bg: #e8f5ee;
+    --wrong: #9b2335;
+    --wrong-bg: #fdf0f0;
+    --radius: 16px;
+    --shadow: 0 8px 40px rgba(13,27,53,0.13);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--navy);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: -30%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(200,169,110,0.10) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -20%;
+    left: -15%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(30,53,96,0.6) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  #app {
+    width: 100%;
+    max-width: 640px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── INTRO ── */
+  .screen { display: none; animation: fadeUp 0.5s ease forwards; }
+  .screen.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 40px 36px;
+  }
+
+  .brand-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--navy);
+    color: var(--gold);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+  }
+  .brand-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+  }
+
+  .intro-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1.45;
+    margin-bottom: 16px;
+  }
+  .intro-title em {
+    color: var(--gold);
+    font-style: normal;
+  }
+
+  .intro-desc {
+    font-size: 14.5px;
+    color: var(--text-mid);
+    line-height: 1.8;
+    margin-bottom: 32px;
+  }
+
+  .intro-meta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .meta-item {
+    flex: 1;
+    background: var(--off-white);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+  .meta-num {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    font-family: 'Noto Serif KR', serif;
+  }
+  .meta-label {
+    font-size: 11px;
+    color: var(--text-mid);
+    margin-top: 4px;
+  }
+
+  .btn-primary {
+    width: 100%;
+    padding: 16px;
+    background: var(--navy);
+    color: var(--gold);
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .btn-primary:hover {
+    background: var(--navy-light);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(13,27,53,0.25);
+  }
+
+  /* ── QUIZ ── */
+  .progress-bar-wrap {
+    background: rgba(255,255,255,0.12);
+    border-radius: 100px;
+    height: 4px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 100px;
+    transition: width 0.5s ease;
+  }
+
+  .q-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  .q-num {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .q-score-live {
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  .q-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    padding: 32px 28px;
+    box-shadow: var(--shadow);
+  }
+
+  .q-type-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+  .badge-ox   { background: #e8f0fb; color: #1a4fa0; }
+  .badge-mc   { background: #fef3e8; color: #a05a1a; }
+  .badge-sa   { background: #eaf7ef; color: #1a6b3c; }
+
+  .q-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--text-dark);
+    margin-bottom: 28px;
+    font-weight: 600;
+  }
+
+  /* OX */
+  .ox-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .ox-btn {
+    padding: 22px 12px;
+    border: 2px solid #e0ddd8;
+    background: var(--off-white);
+    border-radius: 14px;
+    font-size: 32px;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .ox-btn span {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-mid);
+    margin-top: 6px;
+  }
+  .ox-btn:hover:not(:disabled) {
+    border-color: var(--navy);
+    background: #f0eee9;
+    transform: translateY(-2px);
+  }
+  .ox-btn.selected-correct { background: var(--correct-bg); border-color: var(--correct); }
+  .ox-btn.selected-wrong   { background: var(--wrong-bg);   border-color: var(--wrong); }
+  .ox-btn.reveal-correct   { background: var(--correct-bg); border-color: var(--correct); }
+
+  /* MC */
+  .mc-list { display: flex; flex-direction: column; gap: 10px; }
+  .mc-btn {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border: 2px solid #e0ddd8;
+    background: var(--off-white);
+    border-radius: 12px;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--text-dark);
+  }
+  .mc-num {
+    width: 28px; height: 28px;
+    min-width: 28px;
+    border-radius: 50%;
+    background: #e0ddd8;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-mid);
+    transition: all 0.18s;
+  }
+  .mc-btn:hover:not(:disabled) {
+    border-color: var(--navy);
+    background: #f0eee9;
+  }
+  .mc-btn:hover:not(:disabled) .mc-num {
+    background: var(--navy);
+    color: var(--gold);
+  }
+  .mc-btn.selected-correct { background: var(--correct-bg); border-color: var(--correct); }
+  .mc-btn.selected-correct .mc-num { background: var(--correct); color: #fff; }
+  .mc-btn.selected-wrong   { background: var(--wrong-bg);   border-color: var(--wrong); }
+  .mc-btn.selected-wrong   .mc-num { background: var(--wrong); color: #fff; }
+  .mc-btn.reveal-correct   { background: var(--correct-bg); border-color: var(--correct); }
+  .mc-btn.reveal-correct   .mc-num { background: var(--correct); color: #fff; }
+
+  /* SA */
+  .sa-wrap { display: flex; flex-direction: column; gap: 10px; }
+  .sa-input {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid #e0ddd8;
+    border-radius: 12px;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--text-dark);
+    background: var(--off-white);
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .sa-input:focus { border-color: var(--navy); }
+  .sa-input.correct { border-color: var(--correct); background: var(--correct-bg); }
+  .sa-input.wrong   { border-color: var(--wrong);   background: var(--wrong-bg); }
+
+  .btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: var(--navy);
+    color: var(--gold);
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .btn-submit:hover { background: var(--navy-light); }
+  .btn-submit:disabled { opacity: 0.45; cursor: default; }
+
+  /* Feedback */
+  .feedback {
+    margin-top: 20px;
+    padding: 16px 18px;
+    border-radius: 12px;
+    font-size: 13.5px;
+    line-height: 1.75;
+    display: none;
+  }
+  .feedback.show { display: block; animation: fadeUp 0.3s ease; }
+  .feedback.correct { background: var(--correct-bg); border-left: 4px solid var(--correct); color: #1a4a2e; }
+  .feedback.wrong   { background: var(--wrong-bg);   border-left: 4px solid var(--wrong);   color: #5a1a1a; }
+  .feedback-label {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .btn-next {
+    width: 100%;
+    margin-top: 16px;
+    padding: 14px;
+    background: transparent;
+    color: var(--navy);
+    border: 2px solid var(--navy);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Noto Sans KR', sans-serif;
+    display: none;
+  }
+  .btn-next.show { display: block; animation: fadeUp 0.3s ease 0.1s both; }
+  .btn-next:hover { background: var(--navy); color: var(--gold); }
+
+  /* ── RESULT ── */
+  .result-top {
+    text-align: center;
+    padding: 40px 28px 32px;
+  }
+  .result-circle {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    border: 4px solid var(--gold);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    box-shadow: 0 0 0 8px rgba(200,169,110,0.12);
+  }
+  .result-score-num {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--gold);
+    line-height: 1;
+  }
+  .result-score-total {
+    font-size: 12px;
+    color: rgba(200,169,110,0.7);
+    margin-top: 2px;
+  }
+
+  .result-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .result-msg {
+    font-size: 14px;
+    color: var(--text-mid);
+    line-height: 1.75;
+    margin-bottom: 28px;
+  }
+
+  .result-bar-section {
+    background: var(--off-white);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+    text-align: left;
+  }
+  .result-bar-label {
+    font-size: 12px;
+    color: var(--text-mid);
+    margin-bottom: 8px;
+  }
+  .result-bar {
+    background: #e0ddd8;
+    border-radius: 100px;
+    height: 10px;
+    overflow: hidden;
+  }
+  .result-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--navy), var(--navy-light));
+    border-radius: 100px;
+    transition: width 1s ease 0.3s;
+  }
+
+  .result-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 28px 32px;
+  }
+  .btn-site {
+    width: 100%;
+    padding: 15px;
+    background: var(--navy);
+    color: var(--gold);
+    border: none;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    transition: all 0.2s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .btn-site:hover { background: var(--navy-light); }
+
+  .btn-share {
+    width: 100%;
+    padding: 15px;
+    background: transparent;
+    color: var(--navy);
+    border: 2px solid var(--navy);
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .btn-share:hover { background: var(--navy); color: var(--gold); }
+
+  .btn-retry {
+    width: 100%;
+    padding: 14px;
+    background: transparent;
+    color: var(--text-mid);
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .btn-retry:hover { border-color: var(--navy); color: var(--navy); }
+
+  .result-divider {
+    height: 1px;
+    background: #eee;
+    margin: 4px 0;
+  }
+
+  /* footer brand */
+  .footer-brand {
+    text-align: center;
+    padding: 20px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.06em;
+  }
+
+  /* Mobile */
+  @media (max-width: 480px) {
+    .card { padding: 28px 20px; }
+    .q-card { padding: 24px 20px; }
+    .intro-title { font-size: 22px; }
+    .q-text { font-size: 15px; }
+    .result-top { padding: 28px 20px 24px; }
+    .result-actions { padding: 0 20px 24px; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ── INTRO ── -->
+  <div id="screen-intro" class="screen active">
+    <div class="card">
+      <div class="brand-tag">에듀케레 바른교육연구소</div>
+      <h1 class="intro-title">학생부종합전형,<br><em>제대로 알고 계신가요?</em></h1>
+      <p class="intro-desc">
+        학종은 단순히 활동을 많이 하는 전형이 아닙니다.<br>
+        평가 구조와 핵심 원리를 정확히 이해해야<br>
+        올바른 방향으로 준비할 수 있습니다.
+      </p>
+      <div class="intro-meta">
+        <div class="meta-item">
+          <div class="meta-num">10</div>
+          <div class="meta-label">문항</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-num">O/X</div>
+          <div class="meta-label">참/거짓 판단</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-num">약 5분</div>
+          <div class="meta-label">소요시간</div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="startQuiz()">퀴즈 시작하기 →</button>
+    </div>
+    <div class="footer-brand">© 에듀케레 바른교육연구소</div>
+  </div>
+
+  <!-- ── QUIZ ── -->
+  <div id="screen-quiz" class="screen">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+    </div>
+    <div class="q-header">
+      <div class="q-num" id="qNum">Q1 / 10</div>
+      <div class="q-score-live" id="scoreLive">0점</div>
+    </div>
+    <div class="q-card">
+      <span class="q-type-badge" id="qTypeBadge"></span>
+      <p class="q-text" id="qText"></p>
+      <div id="qOptions"></div>
+      <div class="feedback" id="feedback">
+        <div class="feedback-label" id="feedbackLabel"></div>
+        <div id="feedbackText"></div>
+      </div>
+      <button class="btn-next" id="btnNext" onclick="nextQuestion()">다음 문제 →</button>
+    </div>
+    <div class="footer-brand">에듀케레 바른교육연구소</div>
+  </div>
+
+  <!-- ── RESULT ── -->
+  <div id="screen-result" class="screen">
+    <div class="card">
+      <div class="result-top">
+        <div class="result-circle">
+          <div class="result-score-num" id="resultNum">0</div>
+          <div class="result-score-total">/ 10</div>
+        </div>
+        <h2 class="result-title" id="resultTitle"></h2>
+        <p class="result-msg" id="resultMsg"></p>
+        <div class="result-bar-section">
+          <div class="result-bar-label" id="resultBarLabel"></div>
+          <div class="result-bar">
+            <div class="result-bar-fill" id="resultBarFill" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="result-actions">
+        <a href="https://educereedu.com" target="_blank" class="btn-site">에바연 탐구자료 살펴보기 →</a>
+        <div class="result-divider"></div>
+        <button class="btn-share" onclick="shareResult()">결과 공유하기</button>
+        <button class="btn-retry" onclick="retryQuiz()">처음부터 다시 풀기</button>
+      </div>
+    </div>
+    <div class="footer-brand">© 에듀케레 바른교육연구소</div>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    type: 'ox',
+    text: '학생부종합전형은 내신 성적뿐 아니라 학교생활 전반을 학업역량·진로역량·공동체역량으로 종합적·정성적으로 평가하는 전형이다.',
+    correct: 'O',
+    explanation: '맞습니다. 학종은 단순한 등급 계산이 아니라, 학교생활기록부를 중심으로 고교생활과 성장 과정 전반을 종합·정성적으로 평가하는 전형입니다.'
+  },
+  {
+    type: 'mc',
+    text: '대학이 학생부종합전형에서 평가하는 3가지 핵심 역량이 아닌 것은?',
+    options: ['학업역량', '진로역량', '공동체역량', '수능시험역량'],
+    correct: 3,
+    explanation: '대학은 학업역량, 진로역량, 공동체역량으로 지원자를 종합 평가합니다. 수능최저가 적용되는 대학도 있지만, 서류 평가의 핵심 지표는 이 세 가지입니다.'
+  },
+  {
+    type: 'sa',
+    text: '2027학년도 성균관대 융합인재, 중앙대 성장형 등 일부 대학이 학종에 새롭게 도입·강화한 기준은 무엇일까요?',
+    correct: ['수능최저', '수능최저학력기준', '수능 최저', '최저학력기준'],
+    explanation: '2027학년도 일부 대학에서는 학종에 수능최저학력기준을 신설·강화하는 추세입니다. 탄탄한 모의고사 성적이 학종 설계에도 도움이 됩니다.'
+  },
+  {
+    type: 'sa',
+    text: '선발 인원이 늘고 있는 자율전공학부(무전공)에 지원할 때, 대학이 진로역량 대신 중점 평가하는 역량은?',
+    correct: ['자기주도역량', '자기주도 역량', '자기주도성'],
+    explanation: '자율전공학부는 진로역량 대신 자기주도역량(40%)을 중점 평가합니다. 본인의 진로·적성·관심에 따른 주도적 탐구 과정이 중요합니다.'
+  },
+  {
+    type: 'ox',
+    text: '고등학교 재학 중 진로 희망이 변경되면 학생부종합전형에서 무조건 감점을 받는다.',
+    correct: 'X',
+    explanation: '진로 변화는 불이익 요소가 아닙니다. 대학은 변화의 사실보다, 고민·탐구를 통한 성장과 기존 경험의 융합 과정을 긍정적으로 평가합니다.'
+  },
+  {
+    type: 'ox',
+    text: '전공과 무관해 보이는 합창반·오케스트라 동아리 활동도 학종에서 공동체역량을 평가하는 자료가 될 수 있다.',
+    correct: 'O',
+    explanation: '맞습니다. 전공 관련 동아리만 유리한 것이 아닙니다. 합창반 등 활동도 공동체역량을 보여주는 좋은 자료가 됩니다. 중요한 것은 활동 내 주도적 참여의 깊이와 탐구력입니다.'
+  },
+  {
+    type: 'sa',
+    text: '상위 합격자 서류에서 공통적으로 드러나는 탐구 활동의 3가지 핵심 키워드를 작성하세요. (예: A, B, C)',
+    correct: ['성장, 지속, 확장', '성장,지속,확장', '지속, 성장, 확장', '확장, 성장, 지속', '성장 지속 확장'],
+    explanation: '상위 합격자들의 탐구 활동은 단발성으로 끝나지 않고 "성장, 지속, 확장"의 맥락을 보입니다. 탐구가 연결되고 심화되는 흐름이 핵심입니다.'
+  },
+  {
+    type: 'ox',
+    text: '어려운 진로선택과목보다 내신 성적을 따기 쉬운 일반선택과목을 많이 듣는 것이 학종 합격에 유리하다.',
+    correct: 'X',
+    explanation: '대학은 전공 관련 과목을 도전적으로 이수했는지를 진로역량으로 평가합니다. 내신 회피보다 탐구 심화를 위한 과목 선택이 학생부에 드러나야 합니다.'
+  },
+  {
+    type: 'ox',
+    text: '학생부에서 독서활동상황이 대입에 미반영되므로, 고등학교 생활 중 책을 읽을 필요는 없다.',
+    correct: 'X',
+    explanation: '독서활동 항목이 평가에 반영되지 않더라도 독서는 모든 공부의 기초입니다. 독서를 통해 쌓인 지적 역량과 사고력은 수업 토론·탐구활동 등 세특 곳곳에서 드러납니다.'
+  },
+  {
+    type: 'sa',
+    text: '교과세특을 기록할 때 가장 피해야 할 단순 소감 표현의 예시를 하나만 적어보세요.',
+    correct: ['유익했다', '뿌듯했다', '재미있었다', '흥미로웠다', '좋았다', '도움이 됐다', '유익', '뿌듯'],
+    explanation: '세특에서는 단순 "유익했다, 뿌듯했다"는 표현은 지양해야 합니다. 탐구 동기·과정·심화 방향이 구체적으로 드러나는 서술이 필요합니다.'
+  }
+];
+
+let current = 0;
+let score = 0;
+let answered = false;
+
+function startQuiz() {
+  current = 0; score = 0; answered = false;
+  showScreen('screen-quiz');
+  renderQuestion();
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => {
+    s.classList.remove('active');
+    s.style.display = 'none';
+  });
+  const el = document.getElementById(id);
+  el.style.display = 'block';
+  // force reflow then add active for animation
+  requestAnimationFrame(() => el.classList.add('active'));
+}
+
+function renderQuestion() {
+  answered = false;
+  const q = QUESTIONS[current];
+  const pct = (current / QUESTIONS.length) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('qNum').textContent = `Q${current+1} / ${QUESTIONS.length}`;
+  document.getElementById('scoreLive').textContent = score + '점';
+
+  const badge = document.getElementById('qTypeBadge');
+  if (q.type === 'ox') { badge.textContent = 'O / X'; badge.className = 'q-type-badge badge-ox'; }
+  else if (q.type === 'mc') { badge.textContent = '객관식'; badge.className = 'q-type-badge badge-mc'; }
+  else { badge.textContent = '주관식'; badge.className = 'q-type-badge badge-sa'; }
+
+  document.getElementById('qText').textContent = q.text;
+
+  const opts = document.getElementById('qOptions');
+  opts.innerHTML = '';
+
+  if (q.type === 'ox') {
+    opts.innerHTML = `
+      <div class="ox-wrap">
+        <button class="ox-btn" onclick="answerOX('O')">⭕<span>맞다</span></button>
+        <button class="ox-btn" onclick="answerOX('X')">❌<span>틀리다</span></button>
+      </div>`;
+  } else if (q.type === 'mc') {
+    const list = document.createElement('div');
+    list.className = 'mc-list';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'mc-btn';
+      btn.innerHTML = `<span class="mc-num">${i+1}</span>${opt}`;
+      btn.onclick = () => answerMC(i);
+      list.appendChild(btn);
+    });
+    opts.appendChild(list);
+  } else {
+    opts.innerHTML = `
+      <div class="sa-wrap">
+        <input type="text" class="sa-input" id="saInput" placeholder="답을 입력하세요" onkeydown="if(event.key==='Enter')submitSA()">
+        <button class="btn-submit" id="btnSubmit" onclick="submitSA()">확인</button>
+      </div>`;
+  }
+
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback';
+  const btnNext = document.getElementById('btnNext');
+  btnNext.className = 'btn-next';
+  btnNext.textContent = current < QUESTIONS.length - 1 ? '다음 문제 →' : '결과 보기 →';
+}
+
+function showFeedback(isCorrect) {
+  answered = true;
+  const q = QUESTIONS[current];
+  const fb = document.getElementById('feedback');
+  const label = document.getElementById('feedbackLabel');
+  const text = document.getElementById('feedbackText');
+  fb.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+  label.textContent = isCorrect ? '✓ 정답입니다!' : '✗ 오답입니다';
+  text.textContent = q.explanation;
+  document.getElementById('btnNext').className = 'btn-next show';
+  if (isCorrect) score++;
+  document.getElementById('scoreLive').textContent = score + '점';
+}
+
+function answerOX(choice) {
+  if (answered) return;
+  const q = QUESTIONS[current];
+  const btns = document.querySelectorAll('.ox-btn');
+  btns.forEach(b => b.disabled = true);
+  const isCorrect = choice === q.correct;
+  const idx = choice === 'O' ? 0 : 1;
+  const correctIdx = q.correct === 'O' ? 0 : 1;
+  btns[idx].classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+  if (!isCorrect) btns[correctIdx].classList.add('reveal-correct');
+  showFeedback(isCorrect);
+}
+
+function answerMC(idx) {
+  if (answered) return;
+  const q = QUESTIONS[current];
+  const btns = document.querySelectorAll('.mc-btn');
+  btns.forEach(b => b.disabled = true);
+  const isCorrect = idx === q.correct;
+  btns[idx].classList.add(isCorrect ? 'selected-correct' : 'selected-wrong');
+  if (!isCorrect) btns[q.correct].classList.add('reveal-correct');
+  showFeedback(isCorrect);
+}
+
+function submitSA() {
+  if (answered) return;
+  const input = document.getElementById('saInput');
+  const val = input.value.trim();
+  if (!val) return;
+  const q = QUESTIONS[current];
+  const isCorrect = q.correct.some(c => val.includes(c) || c.includes(val));
+  input.classList.add(isCorrect ? 'correct' : 'wrong');
+  input.disabled = true;
+  document.getElementById('btnSubmit').disabled = true;
+  showFeedback(isCorrect);
+}
+
+function nextQuestion() {
+  current++;
+  if (current >= QUESTIONS.length) {
+    showResult();
+  } else {
+    // re-show with animation
+    const screen = document.getElementById('screen-quiz');
+    screen.classList.remove('active');
+    requestAnimationFrame(() => {
+      screen.classList.add('active');
+      renderQuestion();
+    });
+  }
+}
+
+function showResult() {
+  showScreen('screen-result');
+  document.getElementById('resultNum').textContent = score;
+  document.getElementById('progressFill').style.width = '100%';
+
+  let title, msg;
+  if (score >= 9) {
+    title = '학종 전문가 수준입니다!';
+    msg = '입시 구조를 정확히 이해하고 계십니다.\n에바연 탐구자료로 준비 전략을 더욱 구체화해 보세요.';
+  } else if (score >= 7) {
+    title = '기본기가 탄탄합니다';
+    msg = '전반적인 이해도가 높습니다.\n놓친 부분을 보완하면 더 완성도 높은 준비가 됩니다.';
+  } else if (score >= 5) {
+    title = '조금 더 준비가 필요합니다';
+    msg = '학종의 핵심 구조에 대한 이해를 깊이 있게 쌓아보세요.\n에바연이 방향을 안내해 드립니다.';
+  } else {
+    title = '지금부터 시작하면 됩니다';
+    msg = '입시 구조를 정확히 이해하는 것이 첫걸음입니다.\n에바연 콘텐츠로 하나씩 확인해 보세요.';
+  }
+
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultMsg').textContent = msg;
+  document.getElementById('resultBarLabel').textContent = `정답률 ${score * 10}%`;
+  setTimeout(() => {
+    document.getElementById('resultBarFill').style.width = (score * 10) + '%';
+  }, 200);
+}
+
+function shareResult() {
+  const text = `학종 퀴즈 결과: 10문제 중 ${score}점!\n학생부종합전형 핵심 개념을 테스트해보세요.\n\nhttps://educereedu.com`;
+  if (navigator.share) {
+    navigator.share({ title: '학종 퀴즈 | 에바연', text });
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => alert('결과 텍스트가 복사되었습니다!'));
+  }
+}
+
+function retryQuiz() {
+  startQuiz();
+}
+</script>
+</body>
+</html>
